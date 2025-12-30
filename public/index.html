@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Misplaced Mansion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b border-transparent" id="main-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20 relative">
+            
+            <div class="flex items-center">
+                <button id="hamburger-btn" onclick="toggleMobileMenu()" class="z-[70] relative w-10 h-10 flex justify-center items-center focus:outline-none">
+                    <div class="bar"></div>
+                </button>
+
+                <div class="flex items-center cursor-pointer transition-all duration-300 ml-4" id="nav-logo" onclick="showSection('hero')">
+                    <div class="logo-container-wrapper">
+                        <div class="logo-box">
+                            <div class="logo-face front"><i class="fa-solid fa-gem"></i></div>
+                            <div class="logo-face back"><i class="fa-solid fa-gem"></i></div>
+                            <div class="logo-face right"><i class="fa-solid fa-gem"></i></div>
+                            <div class="logo-face left"><i class="fa-solid fa-gem"></i></div>
+                            <div class="logo-face top"><i class="fa-solid fa-gem"></i></div>
+                            <div class="logo-face bottom"><i class="fa-solid fa-gem"></i></div>
+                        </div>
+                    </div>
+                    <span class="text-xl font-bold text-white font-serif-custom tracking-wider" id="logo-text">Misplaced Mansion</span>
+                </div>
+            </div>
+
+            <div id="desktop-menu" class="hidden md:flex items-center space-x-8 transition-all duration-300 origin-right">
+                <a href="#" onclick="showSection('hero')" class="nav-link text-gray-300 hover:text-white text-sm font-bold uppercase tracking-wide">Home</a>
+                <a href="#browse" onclick="renderFeed('Lost')" class="nav-link text-gray-300 hover:text-white text-sm font-bold uppercase tracking-wide">Lost Items</a>
+                <a href="#browse" onclick="renderFeed('Found')" class="nav-link text-gray-300 hover:text-white text-sm font-bold uppercase tracking-wide">Found Items</a>
+                <a href="#how-it-works" class="nav-link text-gray-300 hover:text-white text-sm font-bold uppercase tracking-wide">How It Works</a>
+                
+                <div id="nav-auth-section" class="flex items-center space-x-4"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="glass-panel m-2 absolute top-20 left-0 w-[calc(100%-16px)] z-[60] transform origin-top scale-y-0 opacity-0 pointer-events-none transition-all duration-500 ease-in-out">
+    
+    <nav class="sliding-menu">
+        <ul>
+            <li>
+                <a onclick="showSection('hero'); toggleMobileMenu()">
+                    <i class="fa-solid fa-house mr-2"></i> Home
+                </a>
+            </li>
+            
+            <li>
+                <a onclick="renderFeed('Lost'); toggleMobileMenu()">
+                    <i class="fa-solid fa-magnifying-glass mr-2"></i> Lost Items
+                </a>
+            </li>
+            
+            <li>
+                <a onclick="renderFeed('Found'); toggleMobileMenu()">
+                    <i class="fa-solid fa-hand-holding-heart mr-2"></i> Found Items
+                </a>
+            </li>
+            
+            <li>
+                <a href="#how-it-works" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-circle-info mr-2"></i> How It Works
+                </a>
+            </li>
+
+            <li>
+                <a onclick="openReportModal(); toggleMobileMenu()">
+                    <i class="fa-solid fa-plus-circle mr-2"></i> Report Item
+                </a>
+            </li>
+        </ul>
+
+        <div id="mobile-auth-section"></div>
+    </nav>
+    </div>
+</nav>
+
+    <div id="public-view" class="pt-20">
+        <section id="hero" class="min-h-[90vh] flex flex-col justify-center items-center text-center px-4 relative overflow-hidden">
+            <div class="max-w-4xl mx-auto z-10 view-animate">
+                <h1 class="text-5xl md:text-7xl font-black font-serif-custom text-white mb-6 leading-tight drop-shadow-2xl">
+                    Reuniting Belongings <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">With Belonging</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
+                    The official campus portal for lost assets. Secure verification, real-time tracking, and a 92% recovery rate.
+                </p>
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <button onclick="openReportModal('Lost')" class="btn !h-14 !text-lg !px-10 !w-auto border-2 border-transparent hover:border-blue-400">I Lost Something</button>
+                    <button onclick="openReportModal('Found')" class="btn !h-14 !text-lg !px-10 !w-auto !bg-transparent border-2 border-white/20 hover:bg-white/10">I Found Something</button>
+                </div>
+            </div>
+            <div class="absolute bottom-10 animate-bounce cursor-pointer opacity-50 hover:opacity-100 transition" onclick="document.getElementById('browse').scrollIntoView({behavior: 'smooth'})">
+                <i class="fa-solid fa-chevron-down text-3xl text-white"></i>
+            </div>
+        </section>
+
+        <section id="browse" class="py-20 px-4 max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-gray-700 pb-4">
+                <div>
+                    <h2 class="text-3xl font-bold font-serif-custom text-white mb-2">Live Registry</h2>
+                    <p class="text-gray-400 text-sm">Real-time updates from across campus.</p>
+                </div>
+                <div class="flex gap-2 mt-4 md:mt-0">
+                    <button class="px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-bold" onclick="renderFeed('All')">All</button>
+                    <button class="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold hover:bg-gray-700" onclick="renderFeed('Lost')">Lost</button>
+                    <button class="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold hover:bg-gray-700" onclick="renderFeed('Found')">Found</button>
+                </div>
+            </div>
+            <div id="feed-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+<section id="how-it-works" class="py-20 bg-black/20 backdrop-blur-sm relative border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <h2 class="text-3xl font-bold font-serif-custom text-white mb-16 relative inline-block">
+                    How It Works
+                    <span class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-blue-500 rounded-full"></span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-500/50 transition duration-300 group">
+                        <div class="w-20 h-20 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center mx-auto mb-6 text-3xl border border-blue-500/50 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-file-pen"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">1. Report</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Lost something? Found something? Submit a report in seconds. Upload a photo/video to help identification.
+                        </p>
+                    </div>
+
+                    <div class="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-indigo-500/50 transition duration-300 group">
+                        <div class="w-20 h-20 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto mb-6 text-3xl border border-indigo-500/50 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">2. Verify</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Our secure PIN system ensures items are returned to the right person. No scams, just safe recovery.
+                        </p>
+                    </div>
+
+                    <div class="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-green-500/50 transition duration-300 group">
+                        <div class="w-20 h-20 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center mx-auto mb-6 text-3xl border border-green-500/50 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-handshake"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">3. Recover</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Meet at a safe campus location, verify the PIN, and reunite belongings with their owner. Reputation +10!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-10 border-t border-gray-800 bg-black/60 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start mb-2">
+                        <i class="fa-solid fa-gem text-blue-500 mr-2"></i>
+                        <span class="text-lg font-bold text-white font-serif-custom">Misplaced Mansion</span>
+                    </div>
+                   <p class="text-xs text-gray-500">© 2025 Capstone Project</p>
+<p class="text-xs text-gray-500">•Anurag Chaudhary</p>
+<p class="text-xs text-gray-500">•Arjun Dev Tiwari</p>
+
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <h4 class="text-xs font-bold text-gray-300 uppercase mb-3 tracking-widest">Contact Support</h4>
+                    
+                    <p class="text-sm text-gray-500 mb-2 hover:text-white transition">
+                        <i class="fa-solid fa-envelope mr-2 text-blue-500"></i> 
+                        <a href="mailto:yourdeathisnear07@gmail.com">yourdeathisnear07@gmail.com</a>
+                    </p>
+                    
+                    <p class="text-sm text-gray-500 hover:text-white transition">
+                        <i class="fa-solid fa-phone mr-2 text-green-500"></i> 
+                        <a href="tel:+916386183822">+91 6386183822</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+        </div>
+
+    <div id="modal-auth" class="fixed inset-0 z-[99999] hidden">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeModals()"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+            <div class="glass-panel p-8 relative">
+                <button onclick="closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white pointer-events-auto cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
+                
+                <div id="auth-login-view">
+                    <h2 class="text-3xl font-black text-white font-serif-custom mb-2 text-center">Login</h2>
+                    <p class="text-center text-gray-400 text-sm mb-6">Welcome back.</p>
+                    <div class="space-y-4">
+                        <input type="email" id="login-email" placeholder="Email" class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white outline-none">
+                        <input type="password" id="login-pass" placeholder="Password" class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white outline-none">
+                        <button onclick="window.loginUser()" class="btn w-full shadow-lg shadow-blue-500/30">Sign In</button>
+                    </div>
+                    <p class="text-center text-gray-500 text-xs mt-4">New here? <span class="text-blue-400 cursor-pointer hover:underline" onclick="toggleAuthMode('register')">Create Account</span></p>
+                </div>
+
+                <div id="auth-register-view" class="hidden">
+                    <h2 class="text-3xl font-black text-white font-serif-custom mb-2 text-center">Register</h2>
+                    
+                    <div id="reg-step-1" class="space-y-4">
+                        <p class="text-center text-gray-400 text-sm mb-6">Step 1: Enter your @gmail.com</p>
+                        <input type="email" id="reg-email" placeholder="student@gmail.com" class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white outline-none">
+                        <button onclick="window.sendOtp()" class="btn w-full shadow-lg shadow-blue-500/30">Send OTP</button>
+                    </div>
+
+                    <div id="reg-step-2" class="space-y-4 hidden">
+    <p class="text-center text-gray-400 text-sm mb-6">Step 2: Check your email for the 4-digit code.</p>
+    
+    <input type="text" 
+           id="reg-otp" 
+           maxlength="4" 
+           pattern="\d*" 
+           placeholder="0000" 
+           class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white outline-none text-center text-2xl font-bold tracking-widest placeholder-gray-600"
+           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+           
+    <input type="password" id="reg-pass" placeholder="Set Password" class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white outline-none">
+    
+    <button onclick="window.completeRegistration()" class="btn w-full shadow-lg shadow-green-500/30">Create Account</button>
+</div>
+
+                    <p class="text-center text-gray-500 text-xs mt-4">Already have an account? <span class="text-blue-400 cursor-pointer hover:underline" onclick="toggleAuthMode('login')">Login</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-report" class="fixed inset-0 z-[99999] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModals()"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg">
+            <div class="glass-panel p-8 relative max-h-[90vh] overflow-y-auto">
+                <button onclick="closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white pointer-events-auto z-[99999] cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <h2 class="text-2xl font-black text-white font-serif-custom mb-6">Report Item</h2>
+                <form id="form-report">
+                    <div class="space-y-4">
+                        <div><label class="block text-xs uppercase text-gray-500 font-bold mb-1">Item Name</label><input type="text" id="report-title" required class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white outline-none"></div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label class="block text-xs uppercase text-gray-500 font-bold mb-1">Type</label><select id="report-type" class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white outline-none"><option value="Lost">Lost</option><option value="Found">Found</option></select></div>
+                            <div><label class="block text-xs uppercase text-gray-500 font-bold mb-1">Location</label><input type="text" id="report-location" required class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white outline-none"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label class="block text-xs uppercase text-gray-500 font-bold mb-1">Date</label><input type="date" id="report-date" required class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white outline-none [color-scheme:dark]"></div>
+                            <div><label class="block text-xs uppercase text-gray-500 font-bold mb-1">Time</label><input type="time" id="report-time" required class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white outline-none [color-scheme:dark]"></div>
+                        </div>
+                        <div><label class="block text-xs uppercase text-gray-500 font-bold mb-1">More Details</label><textarea id="report-desc" required class="w-full bg-black/30 border border-gray-600 rounded p-3 text-white h-24 outline-none"></textarea></div>
+                        <div><label class="block text-xs uppercase text-gray-500 font-bold mb-1">Attach Media</label><div class="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center cursor-pointer hover:bg-white/5 transition relative"><i class="fa-solid fa-cloud-arrow-up text-3xl text-gray-400 mb-2"></i><p class="text-xs text-gray-400">Click to upload</p><input type="file" id="report-file" accept="image/*,video/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFileSelect(event)"></div><div id="file-preview-container" class="mt-4 hidden"><div id="preview-content" class="rounded-lg overflow-hidden max-h-40 object-cover border border-gray-600"></div></div></div>
+                        <button type="submit" class="btn w-full shadow-lg shadow-blue-500/30">Submit Report</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-details" class="fixed inset-0 z-[99999] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModals()"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl">
+            <div class="w-full bg-slate-900 border border-slate-700 rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row relative">
+                <button onclick="closeModals()" class="absolute top-4 right-4 z-50 text-gray-400 hover:text-white bg-black/50 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+                <div id="detail-media" class="w-full md:w-1/2 bg-black h-64 md:h-auto border-r border-slate-700 relative"></div>
+                <div class="w-full md:w-1/2 p-8 flex flex-col">
+                    <span id="detail-type" class="text-xs font-black tracking-widest uppercase mb-2"></span>
+                    <h2 id="detail-title" class="text-2xl font-bold text-white mb-4 leading-tight"></h2>
+                    <div class="space-y-4 text-gray-300 text-sm flex-grow">
+                        <div><p class="text-gray-500 text-xs font-bold uppercase">Location</p><p id="detail-loc" class="text-white"></p></div>
+                        <div><p class="text-gray-500 text-xs font-bold uppercase">Time</p><p id="detail-date" class="text-white"></p></div>
+                        <div><p class="text-gray-500 text-xs font-bold uppercase">Description</p><p id="detail-desc" class="text-white leading-relaxed"></p></div>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-slate-700">
+                        <button id="btn-claim-static" class="btn w-full shadow-lg shadow-blue-500/20 text-white font-bold py-3 rounded-lg">Loading...</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div id="modal-profile" class="fixed inset-0 z-[99999] hidden">
+    <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeModals()"></div>
+    
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-sm">
+        <div class="glass-panel p-8 text-center relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl bg-gray-900">
+            <button onclick="closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
+            
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+
+            <div class="mb-4 mt-2">
+                <div class="w-24 h-24 mx-auto rounded-full bg-slate-800 border-4 border-slate-700 flex items-center justify-center text-4xl text-gray-300 relative shadow-lg">
+                    <i class="fa-solid fa-user"></i>
+                    <div class="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-yellow-500 border-2 border-slate-900 flex items-center justify-center text-xs text-black shadow-md font-bold">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+            </div>
+
+            <h2 id="profile-username" class="text-2xl font-bold text-white mb-1">Username</h2>
+            <p id="profile-tag" class="text-xs uppercase tracking-widest font-bold text-blue-400 mb-6">NOVICE INVESTIGATOR</p>
+
+            <div class="bg-white/5 rounded-xl p-4 border border-white/10 mb-6 text-left">
+                <div class="flex justify-between items-end mb-2">
+                    <span class="text-xs text-gray-400 uppercase font-bold">Reputation</span>
+                    <span id="profile-points" class="text-2xl font-black text-white">0</span>
+                </div>
+                <div class="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+                    <div id="profile-progress" class="bg-blue-500 h-full w-0 transition-all duration-1000"></div>
+                </div>
+                <p id="profile-next" class="text-[10px] text-right text-gray-500 mt-1">50 pts to next rank</p>
+            </div>
+
+            <div class="text-center">
+                <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Current Medal</p>
+                <div id="profile-medal" class="text-6xl text-gray-600 drop-shadow-lg transition-transform hover:scale-110 duration-300">
+                    <i class="fa-solid fa-medal"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="app.js"></script>
+</body>
+</html>
