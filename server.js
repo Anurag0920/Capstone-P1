@@ -31,8 +31,16 @@ app.use(express.static(path.join(__dirname, 'public'))); // Serves your HTML/CSS
 
 // DB Connection
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ MongoDB Connected'))
-  .catch(err => console.error('❌ DB Error:', err));
+  .then(() => {
+    console.log('✅ MongoDB Connected');
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('❌ DB connection failed:', err);
+    process.exit(1);
+  });
 
 // Schemas
 const UserSchema = new mongoose.Schema({
