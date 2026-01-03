@@ -128,10 +128,11 @@ window.sendOtp = async function() {
         const data = await res.json();
         
         if (res.ok) {
-            alert("OTP Sent! Check your inbox.");
-            document.getElementById('reg-step-1').classList.add('hidden');
-            document.getElementById('reg-step-2').classList.remove('hidden');
-        } else {
+    alert("OTP generated. Please contact admin to receive it (demo mode).");
+    document.getElementById('reg-step-1').classList.add('hidden');
+    document.getElementById('reg-step-2').classList.remove('hidden');
+}
+else {
             alert(data.error);
             btn.disabled = false;
             btn.innerText = "Send OTP";
