@@ -1,12 +1,18 @@
 // =========================================================================
 // THE MISPLACED MANSION - APP.JS
 // =========================================================================
+const API_URL = window.location.origin;
 
-const API_URL = 'http://localhost:3000'; 
 let items = []; 
 let currentUser = null;
 let token = null;
 let regEmail = '';
+
+function authHeaders() {
+    const t = localStorage.getItem('token');
+    if (!t) throw new Error("No session");
+    return { 'Authorization': t };
+}
 
 // --- 1. INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -131,7 +137,7 @@ window.sendOtp = async function() {
             btn.innerText = "Send OTP";
         }
     } catch (e) {
-        alert("Server Error. Is the backend running?");
+        alert("Something went wrong. Please try again.");
         btn.disabled = false;
     }
 }
@@ -172,27 +178,32 @@ window.loginUser = async function() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: email, password })
         });
+
         const data = await res.json();
 
-        if (res.ok) {
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify({ username: data.username }));
-            window.location.reload();
-        } else {
-            alert(data.error || "Login Failed");
+        if (!res.ok) {
+            return alert(data.error || "Login Failed");
         }
-    } catch (e) {
-        alert("Server Error.");
+
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify({ username: data.username }));
+
+        location.reload();
+    } catch (err) {
+        alert("Server Error");
     }
-}
+};
 
 window.logoutUser = function() {
-    if(confirm("Are you sure you want to log out?")) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.reload();
-    }
-}
+    if (!confirm("Are you sure you want to log out?")) return;
+
+    localStorage.clear(); // important
+    currentUser = null;
+    token = null;
+
+    location.reload();
+};
+
 
 // --- 3. RENDER FEED ---
 
@@ -364,9 +375,10 @@ window.generateClaimPin = async function(id) {
 
     try {
         const res = await fetch(`${API_URL}/generate-pin/${id}`, {
-            method: 'POST',
-            headers: { 'Authorization': storedToken }
-        });
+    method: 'POST',
+    headers: authHeaders()
+});
+
         const data = await res.json();
         
         if (res.ok) {
@@ -389,7 +401,11 @@ window.verifyTransaction = async function(id) {
     try {
         const res = await fetch(`${API_URL}/verify-pin/${id}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': storedToken },
+           headers: {
+    'Content-Type': 'application/json',
+    ...authHeaders()
+},
+
             body: JSON.stringify({ pin })
         });
         const data = await res.json();
