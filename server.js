@@ -7,20 +7,11 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const path = require('path');
-const nodemailer = require('nodemailer');
+
 
 const app = express();
 const PORT = 3000;
 const JWT_SECRET = 'super-secret-key-2025';
-
-// --- EMAIL CONFIGURATION ---
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'yourdeathisnear07@gmail.com', // Your Real Email
-        pass: 'ascy pxlq itke aobj'          // Your App Password
-    }
-});
 
 // Store OTPs in memory { "email": "123456" }
 const tempRegistrations = {}; 
@@ -81,34 +72,34 @@ const authenticateToken = (req, res, next) => {
 
 // 1. Send OTP
 app.post('/auth/send-otp', async (req, res) => {
-    const { username } = req.body;
+    try {
+        const { username } = req.body;
 
-    // Validate Gmail
-    if (!username.endsWith('@gmail.com')) {
-        return res.status(400).json({ error: 'Please use a valid @gmail.com address' });
-    }
-
-    const existing = await User.findOne({ username });
-    if (existing) return res.status(400).json({ error: 'User already exists. Please Login.' });
-
-    const otp = Math.floor(1000 + Math.random() * 9000).toString(); // 4 Digit OTP
-    tempRegistrations[username] = otp;
-
-    const mailOptions = {
-        from: '"Misplaced Mansion Admin" <yourdeathisnear07@gmail.com>',
-        to: username,
-        subject: 'Verify your Account',
-        text: `Welcome! Your verification code is: ${otp}`
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error("Email Error:", error);
-            return res.status(500).json({ error: 'Failed to send email.' });
+        if (!username.endsWith('@gmail.com')) {
+            return res.status(400).json({ error: 'Please use a valid @gmail.com address' });
         }
-        res.json({ success: true, message: 'OTP Sent' });
-    });
+
+        const existing = await User.findOne({ username });
+        if (existing) {
+            return res.status(400).json({ error: 'User already exists. Please Login.' });
+        }
+
+        const otp = Math.floor(1000 + Math.random() * 9000).toString();
+        tempRegistrations[username] = otp;
+
+        // ✅ CAPSTONE MODE: LOG OTP
+        console.log(`🔐 OTP for ${username}: ${otp}`);
+
+        res.json({
+            success: true,
+            message: 'OTP generated (check server logs)'
+        });
+    } catch (err) {
+        console.error('Send OTP Error:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
 });
+
 
 // 2. Verify & Register
 app.post('/auth/register-complete', async (req, res) => {
