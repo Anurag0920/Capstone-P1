@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -27,8 +30,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public'))); // Serves your HTML/CSS/JS
 
 // DB Connection
-const MONGO_URI = 'mongodb://127.0.0.1:27017/lostfound_db';
-mongoose.connect(MONGO_URI)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB Connected'))
   .catch(err => console.error('❌ DB Error:', err));
 
