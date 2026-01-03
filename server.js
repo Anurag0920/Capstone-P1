@@ -209,5 +209,3 @@ app.post('/verify-pin/:id', authenticateToken, async (req, res) => {
         res.status(500).json({ error: 'Server Error' });
     }
 });
-
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
