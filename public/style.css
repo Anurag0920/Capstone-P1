@@ -1,3 +1,4 @@
+/* IMPORT FONTS */
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700');
 @import url('https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
@@ -19,28 +20,26 @@ body {
     font-family: 'Merriweather', serif; 
     min-height: 100vh;
     margin: 0;
-    background-color: #000;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.25'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
-    linear-gradient(to right top, #343a40, #2b2c31, #211f22, #151314, #000000);
+    background-color: #000000;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%239C92AC' fill-opacity='0.25' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to right top, #343a40, #2b2c31, #211f22, #151314, #000000);
     background-attachment: fixed;
     background-size: auto, cover;
 }
 
-/* Glass nav blur for scroll */
 .glass-nav {
     backdrop-filter: blur(10px);
-    background: rgba(0,0,0,0);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0);
 }
 
-/* Generic glass panel */
 .glass-panel { 
     background: var(--glass-bg); 
     border: 1px solid var(--border-color); 
     backdrop-filter: blur(12px);
     border-radius: var(--radius-md); 
+    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0);
 }
 
-/* Ambient background glow (visual only) */
 .ambient-glow {
     position: fixed;
     width: 600px;
@@ -53,9 +52,8 @@ body {
     pointer-events: none;
     animation: float 10s ease-in-out infinite;
 }
-
-.glow-1 { top: -200px; left: -200px; }
-.glow-2 { bottom: -200px; right: -200px; background: #f59e0b; }
+.glow-1 { top: -200px; left: -200px; animation-delay: 0s; }
+.glow-2 { bottom: -200px; right: -200px; background: #f59e0b; animation-delay: 5s; }
 
 @keyframes float {
     0% { transform: translate(0, 0); }
@@ -63,139 +61,458 @@ body {
     100% { transform: translate(0, 0); }
 }
 
-/* Primary CTA button */
 .btn { 
     background: var(--gradient-primary); 
-    color: #fff !important; 
+    color: #ffffff !important; 
     font-weight: 700; 
     height: 44px; 
     padding: 0 24px;
     border-radius: 50px; 
     border: none; 
     width: 100%; 
+    font-family: 'Merriweather', serif; 
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(59,130,246,.3);
-    transition: all .2s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
 }
-
-.btn:hover { transform: translateY(-2px); }
+.btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
 .font-serif-custom { font-family: 'Merriweather', serif; }
 
-/* 3D logo cube */
-.logo-container-wrapper { width: 30px; height: 30px; perspective: 600px; }
-.logo-box { transform-style: preserve-3d; transition: transform 1s ease; }
+.logo-container-wrapper { width: 30px; height: 30px; perspective: 600px; margin-right: 12px; }
+.logo-box { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 1s ease; cursor: pointer; transform: rotateX(-15deg) rotateY(25deg); }
 .logo-box:hover { animation: rotateLogo 4s infinite linear; }
+.logo-face { position: absolute; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; backface-visibility: visible; border-radius: 4px; background: var(--gradient-primary); color: white; border: 1px solid rgba(255, 255, 255, 0.3); overflow: hidden; }
+.logo-face::before { content: ''; position: absolute; width: 100%; height: 100%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent); top: -100%; left: -100%; transition: all 0.5s ease; }
+.logo-face:hover::before { top: 100%; left: 100%; }
+.logo-face.front { transform: translateZ(15px); }
+.logo-face.back { transform: translateZ(-15px) rotateY(180deg); }
+.logo-face.right { transform: translateX(15px) rotateY(90deg); }
+.logo-face.left { transform: translateX(-15px) rotateY(-90deg); }
+.logo-face.top { transform: translateY(-15px) rotateX(90deg); }
+.logo-face.bottom { transform: translateY(15px) rotateX(-90deg); }
+@keyframes rotateLogo { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
 
-@keyframes rotateLogo {
-    from { transform: rotateX(0) rotateY(0); }
-    to { transform: rotateX(360deg) rotateY(360deg); }
-}
-
-/* Item card (compact layout) */
+/* --- ITEM CARD STYLING (Solid & Compact) --- */
 .card {
-    background-color: #1a1a1a;
-    height: 340px;
+    transition: all .4s cubic-bezier(0.175, 0.885, 0, 1);
+    background-color: #1a1a1a; /* SOLID DARK COLOR (Was var(--glass-bg)) */
+    width: 100%;
+    height: 340px; /* Fixed smaller height */
+    position: relative;
     border-radius: 12px;
     overflow: hidden;
-    border: 1px solid #333;
-    transition: transform .3s ease;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333; /* Darker, solid border */
 }
 
 .card:hover {
+    box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.8);
     transform: scale(1.02);
     z-index: 10;
+    border-color: #555;
 }
 
-/* Card image height fixed for layout stability */
-.card__img,
-.card__img--hover {
-    height: 160px;
+.card__img {
+    visibility: hidden;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 160px; /* REDUCED HEIGHT (Was 235px) */
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 
-/* Card content area */
+.card__img--hover {
+    transition: 0.2s all ease-out;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    position: absolute;
+    height: 160px; /* REDUCED HEIGHT (Must match above) */
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    top: 0;
+    left: 0;
+}
+
+/* Adjust info padding for smaller card */
 .card__info {
-    background-color: #1a1a1a;
-    padding: 12px 20px;
-    height: calc(340px - 160px);
+    z-index: 2;
+    background-color: #1a1a1a; /* Match card background */
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    padding: 12px 20px; /* Slightly less padding */
+    position: relative;
+    height: calc(340px - 160px); /* Fill remaining space */
 }
 
-/* Long titles truncate */
 .card__title {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 1.1rem; /* Slightly smaller font */
+    font-weight: bold;
+    color: #fff;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; /* Handle long titles */
 }
+.card__by { font-size: 12px; font-family: 'Raleway', sans-serif; font-weight: 500; color: #94a3b8; }
+.card__author { font-weight: 600; text-decoration: none; color: #3b82f6; }
+.card:hover .card__img--hover { height: 100%; opacity: 0.3; }
+.card:hover .card__info { background-color: transparent; }
+.view-animate { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Click issues fix for overlays */
-.glass-panel::before,
-.card::before,
-.card__img--hover {
+/* --- NUCLEAR FIX FOR CLICKABLE BUTTONS --- */
+.glass-panel::before, .card::before, .card__img--hover {
     pointer-events: none !important;
+    z-index: 0 !important;
 }
-
-/* Resolved card state (visual only) */
+#details-content {
+    position: relative;
+    z-index: 50 !important;
+}
+#claim-action-btn, .btn {
+    position: relative;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+#modal-details, #modal-report {
+    z-index: 99999 !important;
+}
+/* RESOLVED ITEM STYLING */
 .card.resolved {
     filter: grayscale(100%);
-    opacity: .6;
-    pointer-events: none;
+    opacity: 0.6;
+    pointer-events: none; /* Make unclickable */
 }
-
 .card.resolved::after {
     content: 'RESOLVED';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%) rotate(-15deg);
-    color: #ef4444;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    font-size: 2rem;
+    font-weight: 900;
+    color: #ef4444; /* Red */
     border: 4px solid #ef4444;
     padding: 10px 20px;
+    z-index: 50;
+    opacity: 1;
 }
+/* --- SCROLL NAVIGATION EFFECTS --- */
 
-/* Navbar behavior after scroll */
+/* Default State (Top of page) */
+/* Hamburger is hidden on desktop by default via Tailwind utility classes in HTML */
+
+/* SCROLLED STATE (Applied via JS) */
 nav.scrolled-mode {
+    background: rgba(0, 0, 0, 0);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,.1);
-    height: 60px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    height: 60px; /* Shrink height slightly */
 }
 
-/* Sidebar container */
+nav.scrolled-mode .h-20 {
+    height: 60px; /* Adjust inner container height */
+}
+
+/* 1. Show Hamburger on Desktop when scrolled */
+nav.scrolled-mode #hamburger-btn {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateX(0) !important;
+}
+
+/* 2. Hide Desktop Menu Links when scrolled */
+nav.scrolled-mode #desktop-menu {
+    opacity: 0;
+    transform: translateX(20px);
+    pointer-events: none;
+}
+
+/* 3. Adjust Logo Position (Optional polish) */
+nav.scrolled-mode #nav-logo {
+    transform: translateX(-1px); /* Nudge logo closer to hamburger */
+}
+nav.scrolled-mode #logo-text {
+    opacity: 0; /* Hide text to make it cleaner? Or keep it. Remove this line if you want text to stay */
+    display: none; /* If you want just the icon next to the hamburger */
+}
+/* --- SIDEBAR MENU STYLING --- */
+
+/* The Container (Sidebar Inner) */
 .sliding-menu {
-    max-width: 320px;
+    width: fit-content;        /* shrink to content */
+    max-width: 320px;          /* optional: limit size */
     height: 100%;
+    margin: 0;
+    background: #eee;
     display: flex;
     flex-direction: column;
 }
 
-/* Sidebar links */
+.sliding-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-grow: 1; /* Pushes auth section to bottom */
+}
+
+.sliding-menu li {
+    width: 100%;
+}
+
+/* The Links */
 .sliding-menu li a {
-    padding: 20px 25px;
-    border-left: 8px solid;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 20px 25px; /* Larger touch targets */
+    border-left: 8px solid; /* Colorful border */
+    position: relative;
+    z-index: 2;
+    text-decoration: none;
+    color: #000000;
+    background-color: #eee;
+    font-family: 'Merriweather', serif; /* Matching your font */
+    font-weight: 500;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+    cursor: pointer;
 }
 
-/* Hamburger animation */
+.sliding-menu li a i {
+    margin-right: 15px;
+    width: 30px;
+    text-align: center;
+}
+
+/* Hover State */
+.sliding-menu li a:hover {
+    color: #fff;
+}
+
+/* Sliding Animation Background */
+.sliding-menu li a:after {
+    content: "";
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 0px;
+    position: absolute;
+    transition: all 0.3s ease 0s;
+    z-index: -1;
+}
+
+.sliding-menu li a:hover:after {
+    width: 100%;
+}
+
+/* --- COLORS --- */
+.sliding-menu li:nth-child(1) a { border-left-color: #3498db; }
+.sliding-menu li:nth-child(1) a:after { background: #3498db; }
+
+.sliding-menu li:nth-child(2) a { border-left-color: #ffd071; }
+.sliding-menu li:nth-child(2) a:after { background: #ffd071; }
+
+.sliding-menu li:nth-child(3) a { border-left-color: #f0776c; }
+.sliding-menu li:nth-child(3) a:after { background: #f0776c; }
+
+.sliding-menu li:nth-child(4) a { border-left-color: #1abc9c; }
+.sliding-menu li:nth-child(4) a:after { background: #1abc9c; }
+
+.sliding-menu li:nth-child(5) a { border-left-color: #9b59b6; }
+.sliding-menu li:nth-child(5) a:after { background: #9b59b6; }
+
+/* Auth Section at Bottom */
+#mobile-auth-section {
+    padding: 20px;
+    background: #ddd;
+    border-top: 1px solid #ccc;
+    text-align: center;
+}
+@media (min-width: 768px) {
+    .sliding-menu a {
+        text-align: left;
+        margin-left: 0;
+    }
+
+    .sliding-menu {
+        text-align: left;
+    }
+}
+/* --- 1. The Hamburger Container --- */
+.hamburger-lines, 
+.hamburger-lines::before, 
+.hamburger-lines::after {
+    background: #fff; /* White lines to match your theme */
+    content: '';
+    display: block;
+    height: 2px;
+    position: absolute;
+    width: 24px;
+    /* The specific animation timing from your snippet */
+    transition: background ease .3s, top ease .3s .3s, transform ease .3s;
+}
+
+/* --- 2. Positioning the Lines --- */
+.hamburger-lines {
+    /* Middle Line */
+    position: relative; 
+}
+
+.hamburger-lines::before {
+    /* Top Line */
+    top: -8px; 
+}
+
+.hamburger-lines::after {
+    /* Bottom Line */
+    top: 8px; 
+}
+
+/* --- 3. THE ANIMATION (Active State) --- */
+/* This triggers when we add the 'is-active' class via JS */
+#hamburger-btn.is-active .hamburger-lines {
+    background: transparent; /* Hide middle line */
+}
+
+#hamburger-btn.is-active .hamburger-lines::before {
+    top: 0;
+    transform: rotate(45deg);
+    transition: top ease .3s, transform ease .3s .3s; /* Delay rotation until top moves */
+}
+
+#hamburger-btn.is-active .hamburger-lines::after {
+    top: 0;
+    transform: rotate(-45deg);
+    transition: top ease .3s, transform ease .3s .3s;
+}
+
+/* --- 4. Menu Panel Animation (Matching the requested feel) --- */
+#mobile-menu {
+    /* Use the .6s ease from your snippet */
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+/* --- Hamburger Bar Structure --- */
+#hamburger-btn .bar,
+#hamburger-btn .bar::before,
+#hamburger-btn .bar::after {
+    content: "";
+    position: absolute;
+    background: #9FB1BD; /* Change this to #fff if you want white lines */
+    height: 2px;
+    width: 20px;
+    left: 0;
+    
+    /* Animation: When closing (Rotate back -> Separate) */
+    transition: background .3s, transform .3s, top .3s .3s; 
+}
+
+/* Central Bar Positioning */
+#hamburger-btn .bar {
+    position: relative;
+    /* No need for top/transform centering here as flexbox handles the parent */
+}
+
+/* Top Bar */
+#hamburger-btn .bar::before {
+    top: -6px;
+}
+
+/* Bottom Bar */
+#hamburger-btn .bar::after {
+    top: 6px;
+}
+
+/* --- ACTIVE STATE (The "X") --- */
+/* Triggered when Javascript adds the 'active' class */
+
+#hamburger-btn.active .bar {
+    background: transparent; /* Hide middle bar */
+}
+
+#hamburger-btn.active .bar::before {
+    top: 0;
+    transform: rotate(45deg);
+    /* Animation: When opening (Collapse -> Rotate) */
+    transition: background .3s, top .3s, transform .3s .3s;
+}
+
+#hamburger-btn.active .bar::after {
+    top: 0;
+    transform: rotate(-45deg);
+    /* Animation: When opening (Collapse -> Rotate) */
+    transition: background .3s, top .3s, transform .3s .3s;
+}
+/* Ensure the hamburger bars are visible */
+#hamburger-btn .bar {
+    background-color: #333; /* Dark color so it's visible on white */
+}
+#hamburger-btn .bar::before, #hamburger-btn .bar::after {
+    background-color: #333;
+}
+
+/* When the menu is open, slide it in */
+.menu-open {
+    transform: translateX(0) !important; /* Slides the menu onto the screen */
+}
+
+/* When the menu is open, turn the lines white (if you want) or keep dark */
+#hamburger-btn.active .bar, 
+#hamburger-btn.active .bar::before, 
+#hamburger-btn.active .bar::after {
+    background-color: #ffffff; /* Keep visible */
+}
+/* --- FORCE MENU TO OPEN --- */
+#mobile-menu.menu-open {
+    transform: scaleY(1) !important;       /* Overrides scale-y-0 */
+    opacity: 1 !important;                 /* Overrides opacity-0 */
+    pointer-events: auto !important;       /* Allows clicking inside */
+}
+
+/* --- HAMBURGER ANIMATION STYLES --- */
+/* (Ensure these are also present so the X animation works) */
+#hamburger-btn .bar,
+#hamburger-btn .bar::before,
+#hamburger-btn .bar::after {
+    background: #fff; /* White lines */
+    transition: all 0.3s ease;
+}
+
+#hamburger-btn.active .bar { background: transparent; }
+#hamburger-btn.active .bar::before { top: 0; transform: rotate(45deg); }
+#hamburger-btn.active .bar::after { top: 0; transform: rotate(-45deg); }
+
+/* --- 1. Hide the Hamburger Button by Default --- */
 #hamburger-btn {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .3s ease;
+    opacity: 0;               /* Make it invisible */
+    pointer-events: none;     /* Make it unclickable */
+    transition: opacity 0.3s ease; /* Smooth fade in/out */
 }
 
-/* Scroll ke baad hamburger visible */
+/* --- 2. Show it when Page is Scrolled --- */
+/* Your app.js adds 'scrolled-mode' to the nav when you scroll down */
 #main-nav.scrolled-mode #hamburger-btn {
+    opacity: 1;               /* Make it visible */
+    pointer-events: auto;     /* Make it clickable */
+}
+
+/* --- 3. Optional: Ensure it stays visible if the menu is OPEN --- */
+/* This prevents the button from disappearing if you are at the top but the menu is somehow open */
+#main-nav:has(.menu-open) #hamburger-btn {
     opacity: 1;
     pointer-events: auto;
 }
-
-/* Menu open state */
-.menu-open {
-    transform: translateX(0) !important;
-}
-
-/* Mobile menu alignment */
+/* Push the menu to the right to match items */
 #mobile-menu {
-    left: 85.5px !important;
-    width: 300px !important;
+    left: 85.5px !important;  /* Change this value (e.g., 80px, 10%, etc.) until it aligns */
+    width: 300px !important; /* Optional: Makes the menu look like a sidebar instead of full width */
 }
