@@ -252,7 +252,12 @@ nav.scrolled-mode #logo-text {
     max-width: 320px;          /* optional: limit size */
     height: 100%;
     margin: 0;
-    background: #eee;
+    .sliding-menu {
+    background: rgba(30, 30, 30, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
     display: flex;
     flex-direction: column;
 }
@@ -516,3 +521,97 @@ nav.scrolled-mode #logo-text {
     left: 85.5px !important;  /* Change this value (e.g., 80px, 10%, etc.) until it aligns */
     width: 300px !important; /* Optional: Makes the menu look like a sidebar instead of full width */
 }
+/* =====================================================
+   MOBILE MENU ALIGNMENT FIX (PHONE + TABLET)
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+  /* Mobile menu container */
+  #mobile-menu {
+      position: fixed;
+      top: 60px;                 /* below navbar */
+      left: 0 !important;        /* NO floating */
+      width: 85% !important;     /* smaller than full screen */
+      max-width: 320px;
+      height: calc(100vh - 60px);
+      #mobile-menu {
+    background: none !important;
+    box-shadow: none !important;
+}
+      box-shadow: 4px 0 20px rgba(0,0,0,0.4);
+      transform: translateX(-100%); /* hidden by default */
+      transition: transform 0.4s ease;
+      z-index: 9999;
+      overflow-y: auto;
+  }
+
+  /* When menu opens */
+  #mobile-menu.menu-open {
+      transform: translateX(0) !important;
+  }
+
+  /* Inner menu should fill container */
+  .sliding-menu {
+      width: 100%;
+      max-width: 100%;
+  }
+
+  /* Menu links spacing (touch friendly) */
+  .sliding-menu li a {
+      padding: 18px 20px;
+      font-size: 0.9rem;
+  }
+
+  /* Auth section fix */
+  #mobile-auth-section {
+      padding: 16px;
+      font-size: 0.85rem;
+  }
+}
+/* ===============================
+   MOBILE MENU FIX (PHONE ONLY)
+   =============================== */
+@media (max-width: 768px) {
+
+  /* Mobile menu outer container */
+  #mobile-menu {
+    position: fixed;
+    top: 60px;                 /* navbar ke neeche */
+    left: 0 !important;        /* floating hatao */
+    width: 80% !important;     /* phone ke hisaab se size */
+    max-width: 320px;
+    height: calc(100vh - 60px);
+    #mobile-menu {
+    background: none !important;
+    box-shadow: none !important;
+}
+
+    box-shadow: 4px 0 20px rgba(0,0,0,0.4);
+    transform: translateX(-100%); /* default hidden */
+    transition: transform 0.4s ease;
+    z-index: 9999;
+    overflow-y: auto;
+  }
+
+  /* Menu open hone par */
+  #mobile-menu.menu-open {
+    transform: translateX(0) !important;
+  }
+
+  /* Inner menu full width le */
+  .sliding-menu {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Touch friendly spacing */
+  .sliding-menu li a {
+    padding: 18px 20px;
+    font-size: 0.95rem;
+  }
+
+  /* Auth section thoda compact */
+  #mobile-auth-section {
+    padding: 14px;
+    font-size
